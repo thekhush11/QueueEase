@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="dashboard">
+  <h2 class="mb-4">Welcome, {{ user }}</h2>
+
+  <div class="card-actions">
+    <a href="{{ url_for('generate_token') }}" class="btn btn-primary">➕ Generate Token</a>
+    <a href="{{ url_for('logout') }}" class="btn btn-logout">Logout</a>
+  </div>
+
+  <h3 class="mb-3">Your Tokens</h3>
+  <div id="myTokens" class="token-list">
+    {% if my_tokens %}
+      {% for t in my_tokens %}
+        <div class="token-card {{ t.status }}">
+          <strong>{{ t.token }}</strong> – {{ t.status|capitalize }}
+        </div>
+      {% endfor %}
+    {% else %}
+      <div class="token-card">No tokens yet.</div>
+    {% endif %}
+  </div>
+</div>
+
+<script>
+  const socket = io();
+
+  socket.on("update_tokens", function(tokens) {
+    const myUser = "{{ user }}";
+    const myTokensDiv = document.getElementById("myTokens");
+    myTokensDiv.innerHTML = "";
+
+    let hasToken = false;
+    tokens.forEach(t => {
+      if (t.user === myUser) {
+        hasToken = true;
+        let div = document.createElement("div");
+        div.className = `token-card ${t.status}`;
+        div.innerHTML = `<strong>${t.token}</strong> – ${t.status.charAt(0).toUpperCase() + t.status.slice(1)}`;
+        myTokensDiv.appendChild(div);
+      }
+    });
+
+    if (!hasToken) {
+      myTokensDiv.innerHTML = `<div class="token-card">No tokens yet.</div>`;
+    }
+  });
+</script>
+{% endblock %}

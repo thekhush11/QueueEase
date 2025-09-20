@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="hero">
+    <div class="hero-text">
+        <h1>Welcome to <span>QueueEase</span></h1>
+        <p>
+            Say goodbye to long waiting queues! <br>
+            QueueEase helps patients generate tokens easily 
+            and allows doctors to manage appointments efficiently in real-time.
+        </p>
+        <div class="buttons">
+            <a href="{{ url_for('login') }}" class="btn btn-primary">Login</a>
+            <a href="{{ url_for('register') }}" class="btn btn-secondary">Register</a>
+        </div>
+    </div>
+    <div class="hero-image">
+        <img src="{{ url_for('static', filename='images/queueease-hero.png') }}" alt="QueueEase Illustration">
+    </div>
+</section>
+{% endblock %}

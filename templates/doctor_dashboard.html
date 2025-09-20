@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="dashboard">
+  <h2 class="mb-4">Doctor Dashboard ({{ user }})</h2>
+
+  <div class="card-actions">
+    <a href="{{ url_for('call_next') }}" class="btn btn-primary">📢 Call Next</a>
+    <a href="{{ url_for('logout') }}" class="btn btn-logout">Logout</a>
+  </div>
+
+  <h3 class="mb-3">All Tokens</h3>
+  <div class="table-container">
+    <table id="tokenTable">
+      <thead>
+        <tr>
+          <th>Token</th>
+          <th>User</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% if tokens %}
+          {% for t in tokens %}
+            <tr class="status-{{ t.status }}">
+              <td>{{ t.token }}</td>
+              <td>{{ t.user }}</td>
+              <td>{{ t.status|capitalize }}</td>
+            </tr>
+          {% endfor %}
+        {% else %}
+          <tr><td colspan="3">No tokens yet.</td></tr>
+        {% endif %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+  const socket = io();
+
+  socket.on("update_tokens", function(tokens) {
+    const tbody = document.querySelector("#tokenTable tbody");
+    tbody.innerHTML = "";
+
+    if (tokens.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="3">No tokens yet.</td></tr>`;
+      return;
+    }
+
+    tokens.forEach(t => {
+      let row = document.createElement("tr");
+      row.className = `status-${t.status}`;
+      row.innerHTML = `
+        <td>${t.token}</td>
+        <td>${t.user}</td>
+        <td>${t.status.charAt(0).toUpperCase() + t.status.slice(1)}</td>
+      `;
+      tbody.appendChild(row);
+    });
+  });
+</script>
+{% endblock %}
