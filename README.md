@@ -32,49 +32,93 @@ The system has a **modern UI**, a **modular codebase**, and is designed for scal
 ## 🏗️ Project Structure
 
 QueueEase/
+
 │
+
 ├── app.py # Main Flask entry point
+
 ├── config.py # App configuration (DB URI, secret keys, etc.)
+
 ├── requirements.txt # Dependencies
+
 ├── README.md # Documentation
+
 │
+
 ├── instance/ # Runtime files
+
 │ └── queueease.db # SQLite database (local dev only)
+
 │
+
 ├── models/ # Database models
+
 │ ├── init.py
+
 │ ├── token.py # Token model
+
 │ └── user.py # User model
+
 │
+
 ├── routes/ # Flask blueprints (routes)
+
 │ ├── init.py
+
 │ ├── auth.py # Login & Registration
+
 │ ├── doctor.py # Doctor dashboard routes
+
 │ └── patient.py # Patient dashboard routes
+
 │
+
 ├── services/ # Business logic & services
+
 │ ├── init.py
+
 │ ├── notification_service.py
+
 │ └── token_service.py
+
 │
+
 ├── static/ # Static assets
+
 │ ├── css/
+
 │ │ ├── auth.css # Styles for login/register
+
 │ │ └── style.css # Global styles
+
 │ ├── images/ # Images & icons
+
 │ └── js/
+
 │ ├── main.js # General frontend scripts
+
 │ └── socket.js # Real-time updates with SocketIO
+
 │
+
 ├── templates/ # HTML templates (Jinja2)
+
 │ ├── base.html # Common layout
+
 │ ├── index.html # Home page
+
 │ ├── login.html # Login page
+
 │ ├── register.html # Registration page
+
 │ ├── patient_dashboard.html
+
 │ └── doctor_dashboard.html
+
 │
+
 └── tests/ # Unit tests
+
 └── test_auth.py
 
 ---
@@ -134,3 +178,4 @@ http://127.0.0.1:5000/
 ### 📜 License
 
 This project is licensed under the MIT License.
+
